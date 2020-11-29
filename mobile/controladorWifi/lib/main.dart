@@ -1,4 +1,4 @@
-import 'package:controladorWifi/controladorWifi.dart';
+import 'package:controladorWifi/pages/controladorWifi.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,15 +6,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Controlador wifi',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-     
         primarySwatch: Colors.blue,
-        
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: ControllerWifi(),
