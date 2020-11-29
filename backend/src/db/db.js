@@ -18,7 +18,7 @@ async function selectUsers() {
 
 async function selectUser(email) {
   const conn = await connect();
-  const sql = 'SELECT id, nome, email, whatsapp FROM users  where email=?;';
+  const sql = 'SELECT id, nome, email, whatsapp, token FROM users  where email=?;';
   const [row] = await conn.query(sql, [email]);
   return row;
 }
@@ -28,14 +28,18 @@ async function insertUser(user) {
   const conn = await connect();
   const sql = 'INSERT INTO users(nome,email,whatsapp) VALUES (?,?,?);';
   const values = [user.nome, user.email, user.whatsapp];
+
   return await conn.query(sql, values);
 }
 
 async function updateUser(email, user) {
   const conn = await connect();
+
+  const user1 = await selectUser(email);
+
   const sql = 'UPDATE users SET nome=?, email=?, whatsapp=? WHERE email=?';
   const values = [user.nome, user.email, user.whatsapp, email];
-  
+
   return await conn.query(sql, values);
 }
 

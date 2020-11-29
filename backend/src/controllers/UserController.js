@@ -1,4 +1,7 @@
 const db = require("../db/db");
+//const fs = require("fs");
+//var jwt = require('jsonwebtoken');
+
 const validations = require("./validations");
 
 (async () => {
@@ -9,8 +12,16 @@ module.exports = {
 
   //cadastro de usuário
   async create(request, response) {
-	
-    console.log(request.body);
+
+    // function handleCreateToken(data) {
+    //   //esse id viria do banco de dados 
+    //   var privateKey = fs.readFileSync('./private.key', 'utf8');
+    //   var token = jwt.sign(data, privateKey, {
+    //     expiresIn: 300, // 5min 
+    //     algorithm: "RS256" //SHA-256 hash signature
+    //   });
+    //   return token;
+    // }
 
     const { nome, email, whatsapp } = request.body;
 
@@ -26,15 +37,20 @@ module.exports = {
       const user = await db.selectUser(email);
 
       if (user[0] == undefined) {
+        // const token = handleCreateToken({ nome, email, whatsapp });
+        //console.log(`Seu token é: \n${token}`);
+
         const result = await db.insertUser({ nome, email, whatsapp });
-	console.log({result});
-        return response.status(204).json({result});
+        console.log(`criou o cadastro`);
+
+        return response.json(result);
       } else {
+        //const token = await handleCreateToken({ nome, email, whatsapp });
 
         const result1 = await db.updateUser(email, { nome, email, whatsapp });
-        console.log({result1});
+        console.log(`Atualizou o cadastro`);
 
-        return response.status(204).json({result1});
+        return response.json(result1);
       }
 
     }
@@ -59,7 +75,7 @@ module.exports = {
     console.log('DELETE USERS');
     const result3 = await db.deleteUser(id);
     console.log(result3);
-    return response.status(204).json({ result3 });
+    return response.status(204).json(result3);
   },
 
   //Editar um usuário
@@ -67,7 +83,7 @@ module.exports = {
     const { id } = request.params;
 
     const { nome, email, whatsapp } = request.body;
-    console.log(nome);
+
     const val1 = validations.userSchema.validate({ nome, whatsapp, email });
     console.log("Passou na validação: " + !val1.error);
 
@@ -84,9 +100,8 @@ module.exports = {
     if (!val1.error) {
 
       const result2 = await db.updateUser(email, { nome, email, whatsapp });
-      console.log(result2);
 
-      return response.status(204).send();
+      return response.status(204).json(result2);
     }
 
     return response.status(400).json(val1.error);
