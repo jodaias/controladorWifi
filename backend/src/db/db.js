@@ -18,7 +18,7 @@ async function selectUsers() {
 
 async function selectUser(email) {
   const conn = await connect();
-  const sql = 'SELECT id, nome, email, whatsapp, token FROM users  where email=?;';
+  const sql = 'SELECT id, nome, email, whatsapp FROM users  where email=?;';
   const [row] = await conn.query(sql, [email]);
   return row;
 }

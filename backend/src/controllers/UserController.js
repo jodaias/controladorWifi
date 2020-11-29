@@ -13,15 +13,6 @@ module.exports = {
   //cadastro de usuário
   async create(request, response) {
 
-    // function handleCreateToken(data) {
-    //   //esse id viria do banco de dados 
-    //   var privateKey = fs.readFileSync('./private.key', 'utf8');
-    //   var token = jwt.sign(data, privateKey, {
-    //     expiresIn: 300, // 5min 
-    //     algorithm: "RS256" //SHA-256 hash signature
-    //   });
-    //   return token;
-    // }
 
     const { nome, email, whatsapp } = request.body;
 
@@ -37,16 +28,14 @@ module.exports = {
       const user = await db.selectUser(email);
 
       if (user[0] == undefined) {
-        // const token = handleCreateToken({ nome, email, whatsapp });
-        //console.log(`Seu token é: \n${token}`);
+      
 
         const result = await db.insertUser({ nome, email, whatsapp });
         console.log(`criou o cadastro`);
 
         return response.json(result);
       } else {
-        //const token = await handleCreateToken({ nome, email, whatsapp });
-
+        
         const result1 = await db.updateUser(email, { nome, email, whatsapp });
         console.log(`Atualizou o cadastro`);
 
