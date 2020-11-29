@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:controladorWifi/models/usermodel.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,5 +14,10 @@ class API {
     print(userModel.toJson());
     var url = baseUrl + "/users";
     return http.post(url, body: userModel.toJson());
+  }
+
+  static Future deleteUser(int id) {
+    var url = baseUrl + "/users/$id";
+    return http.delete(url);
   }
 }
