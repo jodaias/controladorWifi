@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../services/api';
+import Input from '../../components/maskphone';
 
 import './styles.css';
 
@@ -101,11 +102,12 @@ function AccessWifi() {
 
             <p>
               <label for="whatsapp_cad">Seu Whatsapp</label>
-              <input
+              <Input
                 id="whatsapp_cad"
+                mask="(99) 99999-9999"
                 name="whatsapp_cad"
                 type="text"
-                placeholder="ex. +55 75 99176-0697"
+                placeholder="(75) 99999-9999"
                 value={whatsapp}
                 onChange={e => setWhatsapp(e.target.value)}
                 required
