@@ -18,13 +18,13 @@ async function selectUsers() {
 
 async function selectUser(email) {
   const conn = await connect();
-  const sql = 'SELECT id, nome, email, whatsapp, token FROM users  where email=?;';
+  const sql = 'SELECT id, nome, email, whatsapp FROM users  where email=?;';
   const [row] = await conn.query(sql, [email]);
   return row;
 }
 
 async function insertUser(user) {
-  console.log('aqui passou 32');
+
   const conn = await connect();
   const sql = 'INSERT INTO users(nome,email,whatsapp) VALUES (?,?,?);';
   const values = [user.nome, user.email, user.whatsapp];
