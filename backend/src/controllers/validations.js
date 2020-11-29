@@ -9,7 +9,7 @@ const userSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
 
-  whatsapp: Joi.string().min(10).max(11).pattern(/^[0-9]+$/).required(),
+  whatsapp: Joi.string().min(14).max(15).required(),
 })
 
 module.exports = {
