@@ -15,4 +15,9 @@ class API {
     var url = baseUrl + "/users";
     return http.post(url, body: userModel.toJson());
   }
+
+  static Future deleteUser(int id) {
+    var url = baseUrl + "/users/$id";
+    return http.delete(url);
+  }
 }

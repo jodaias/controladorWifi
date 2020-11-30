@@ -13,9 +13,9 @@ class UserModel {
       whatsapp: json["whatsapp"]);
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'nome': nome,
-        'email': email,
-        'whatsapp': whatsapp,
+        'id': '$id',
+        'nome': '$nome',
+        'email': '$email',
+        'whatsapp': '$whatsapp',
       };
 }

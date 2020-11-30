@@ -13,7 +13,15 @@ class ControllerWifi extends StatefulWidget {
 class _ControllerWifiState extends State<ControllerWifi> {
   var users = new List<UserModel>();
 
-  _getUsers() {
+  _deleteUser(int id) async {
+    API.deleteUser(id).then((response) {
+      print(response.body);
+    }).catchError((onError) {
+      print('Erro: $onError');
+    });
+  }
+
+  _getUsers() async {
     API.getUsers().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
@@ -22,17 +30,17 @@ class _ControllerWifiState extends State<ControllerWifi> {
     });
   }
 
-  _postUser() {
+  _postUser() async {
     API
         .postUser(UserModel(
       nome: 'alguma pessoa',
       email: 'algumapessoa@gmail.com',
-      whatsapp: '12345678909',
+      whatsapp: '(75) 99119-9329',
     ))
         .then((response) {
       print(response.body);
     }).catchError((onError) {
-      print('Erro de Post: $onError');
+      print('Erro1: $onError');
     });
   }
 
@@ -48,6 +56,12 @@ class _ControllerWifiState extends State<ControllerWifi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _postUser();
+        },
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         title: Text('Controlador wifi'),
         centerTitle: true,
@@ -60,7 +74,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
             actionExtentRatio: 0.2,
             direction: Axis.horizontal,
             child: ListTile(
-              title: Text(users[index].nome),
+              title: Text('${users[index].id}- ${users[index].nome}'),
               trailing: Wrap(
                 spacing: 12, // space between two icons
                 children: [
@@ -153,7 +167,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                 },
               ),
               IconSlideAction(
-                caption: 'Desativar',
+                caption: 'Excluir',
                 icon: Icons.block,
                 color: Colors.red[400],
                 onTap: () {
@@ -164,7 +178,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                         return AlertDialog(
                           title: Text('Tem certeza?'),
                           content: Text(
-                              'Esta ação irá desativar o usuário selecionado!'),
+                              'Esta ação irá excluir o usuário selecionado!'),
                           actions: <Widget>[
                             RaisedButton(
                               color: Colors.greenAccent,
@@ -176,11 +190,12 @@ class _ControllerWifiState extends State<ControllerWifi> {
                             ),
                             RaisedButton(
                                 color: Colors.white,
-                                child: Text('Desativar',
+                                child: Text('Excluir',
                                     style: TextStyle(color: Colors.red)),
                                 onPressed: () {
                                   setState(() {
-                                    //alguma ação para desativar o usuario
+                                    //alguma ação para excluir o usuario
+                                    _deleteUser(users[index].id);
                                   });
                                   Navigator.of(ctx).pop();
                                 })
@@ -211,7 +226,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
               child: ListBody(
                 children: <Widget>[
                   Text(
-                    '\nNome: ${users[index].nome}\nEmail: ${users[index].email}\nWhatsapp: ${users[index].whatsapp}\n',
+                    '\nId: ${users[index].id}\nNome: ${users[index].nome}\nEmail: ${users[index].email}\nWhatsapp: ${users[index].whatsapp}\n',
                     style: TextStyle(color: Colors.black54),
                   ),
                 ],
@@ -270,7 +285,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
 
   _abrirWhatsApp(int index) async {
     var whatsappUrl =
-        "whatsapp://send?phone=+55${users[index].whatsapp}&text=Olá ${users[index].nome}, segue o Token Solicitado.";
+        "whatsapp://send?phone=+55${users[index].whatsapp}&text=Olá ${users[index].nome}, segue o Token Solicitado:\n";
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
