@@ -35,12 +35,12 @@ class _ControllerWifiState extends State<ControllerWifi> {
         .postUser(UserModel(
       nome: 'alguma pessoa',
       email: 'algumapessoa@gmail.com',
-      whatsapp: '12345678909',
+      whatsapp: '(75) 99119-9329',
     ))
         .then((response) {
       print(response.body);
     }).catchError((onError) {
-      print('Erro: $onError');
+      print('Erro1: $onError');
     });
   }
 
@@ -56,6 +56,12 @@ class _ControllerWifiState extends State<ControllerWifi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _postUser();
+        },
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         title: Text('Controlador wifi'),
         centerTitle: true,
@@ -279,7 +285,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
 
   _abrirWhatsApp(int index) async {
     var whatsappUrl =
-        "whatsapp://send?phone=+55${users[index].whatsapp}&text=Olá ${users[index].nome}, segue o Token Solicitado.";
+        "whatsapp://send?phone=+55${users[index].whatsapp}&text=Olá ${users[index].nome}, segue o Token Solicitado:\n";
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
