@@ -4,6 +4,8 @@ import api from '../../services/api';
 import Input from '../../components/maskphone';
 import './styles.css';
 
+
+
 function AccessWifi() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -22,8 +24,13 @@ function AccessWifi() {
     try {
       const response = await api.post('users', data);
 
-      alert(`Solicitação enviada com sucesso`);
+      const urlUnifi = 'http://192.168.7.234:8880/guest/s/default/?ap=80:2a:a8:a0:94:8a&ec=4C9Y6w_d3b7a75gKNxigaD6hDX2tIB91sinlqVW-bGj_YgkD5an_fIUiRCFV_OBc_EWP5rTER_4N4CiPD7q9LTzmfmVaST-cdyOf8-lnkzVWiy1t2y4L57jeahFSkTa-Y-7rCXptAmHjUQg37e2oAHYAEBhyMNqr9ADeIOyGZKxZcWhmenuoeF2J6CwOU4gL0XT4RAexWXG5V5LxOtUC5w#/';
 
+      alert(`Solicitação enviada com sucesso.`);
+window.open(urlUnifi);
+      
+
+      
       history.push('/');
     } catch (error) {
       alert('Erro na solicitação, tente novamente');
@@ -34,6 +41,7 @@ function AccessWifi() {
 
    
       <div class="container">
+      
         <a class="links" id="parasolicitar"></a>
         <a class="links" id="paratermos"></a>
 

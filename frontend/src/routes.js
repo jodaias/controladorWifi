@@ -8,6 +8,7 @@ export default function Routes() {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={AccessWifi} />
+
       </Switch>
     </BrowserRouter>
   );
