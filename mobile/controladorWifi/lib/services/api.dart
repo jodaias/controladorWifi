@@ -20,4 +20,9 @@ class API {
     var url = baseUrl + "/users/$id";
     return http.delete(url);
   }
+
+  static Future editUser(UserModel userModel) {
+    var url = baseUrl + "/users/${userModel.id}";
+    return http.put(url, body: userModel.toJson());
+  }
 }

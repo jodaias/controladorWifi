@@ -12,6 +12,9 @@ class ControllerWifi extends StatefulWidget {
 
 class _ControllerWifiState extends State<ControllerWifi> {
   var users = new List<UserModel>();
+  String nome;
+  String email;
+  String whatsapp;
 
   _deleteUser(int id) async {
     API.deleteUser(id).then((response) {
@@ -27,6 +30,15 @@ class _ControllerWifiState extends State<ControllerWifi> {
         Iterable list = json.decode(response.body);
         users = list.map((model) => UserModel.fromJson(model)).toList();
       });
+    });
+  }
+
+  _putUser(UserModel userModel) async {
+    API.editUser(userModel).then((response) {
+      print(response.body);
+      print(response.status);
+    }).catchError((e) {
+      print(e);
     });
   }
 
@@ -115,23 +127,69 @@ class _ControllerWifiState extends State<ControllerWifi> {
                       context: context,
                       barrierDismissible: true,
                       builder: (BuildContext ctx) {
-                        final input = Form(
-                            child: TextFormField(
-                          autofocus: true,
-                          initialValue: users[index].nome,
-                          decoration: InputDecoration(
-                              hintText: 'Nome',
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20, 10, 20, 10),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5))),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Este campo não pode ficar vazio';
-                            }
-                            return null;
-                          },
-                        ));
+                        final input = Column(
+                          children: [
+                            TextFormField(
+                              autofocus: true,
+                              initialValue: users[index].nome,
+                              decoration: InputDecoration(
+                                  hintText: 'Nome',
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Este campo não pode ficar vazio';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                nome = value;
+                              },
+                            ),
+                            TextFormField(
+                              autofocus: true,
+                              keyboardType: TextInputType.emailAddress,
+                              initialValue: users[index].email,
+                              decoration: InputDecoration(
+                                  hintText: 'E-mail',
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Este campo não pode ficar vazio';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                email = value;
+                              },
+                            ),
+                            TextFormField(
+                              autofocus: true,
+                              keyboardType: TextInputType.phone,
+                              initialValue: users[index].whatsapp,
+                              decoration: InputDecoration(
+                                  hintText: 'Whatsapp',
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Este campo não pode ficar vazio';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                whatsapp = value;
+                              },
+                            ),
+                          ],
+                        );
 
                         return AlertDialog(
                           title: Text('Editar nome'),
@@ -158,6 +216,12 @@ class _ControllerWifiState extends State<ControllerWifi> {
                                 //salva um dado na tabela LOG dizendo que atualizou um dado
                                 print('dados atualizados');
                                 print('dados salvos na tabela LOG');
+
+                                _putUser(UserModel(
+                                    id: users[index].id,
+                                    email: email,
+                                    nome: nome,
+                                    whatsapp: whatsapp));
                                 Navigator.of(ctx).pop();
                               },
                             )

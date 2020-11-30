@@ -76,16 +76,6 @@ module.exports = {
     const val1 = validations.userSchema.validate({ nome, whatsapp, email });
     console.log("Passou na validação: " + !val1.error);
 
-    const id_Header = request.headers.authorization;
-
-    const user = await db.selectUser(email);
-
-    if (user[0].id != id_Header) {
-    
-      console.log(user[0].id);
-
-      return response.status(401).json({ error: 'Operation not permitted.' });
-    }
     console.log('UPDATE USERS');
     if (!val1.error) {
 
