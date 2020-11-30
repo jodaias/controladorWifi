@@ -81,6 +81,7 @@ module.exports = {
     const user = await db.selectUser(email);
 
     if (user[0].id != id_Header) {
+    
       console.log(user[0].id);
 
       return response.status(401).json({ error: 'Operation not permitted.' });

@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:controladorWifi/models/usermodel.dart';
 import 'package:http/http.dart' as http;
 
-const baseUrl = "http://192.168.0.108:3333";
+const baseUrl = "http://192.2.71.9:3333";
 
 class API {
   static Future getUsers() {
