@@ -107,6 +107,7 @@
         font-size: 20px;
         border: 1px solid #fff;
         margin-bottom: 10px;
+        
         text-shadow: 0 1px 1px #333;
 
         -webkit-border-radius: 5px;
@@ -119,9 +120,14 @@
     input[type="submit"]:hover {
         background: #4ab3c6;
     }
-
-
-
+    
+    /*estilo do botão submit desativado*/
+    input:disabled,
+    input[disabled], input[disabled]:hover{
+     border: 1px solid #999999;
+     background-color: #cccccc;
+     color: #666666;
+    }
 
     .link {
         position: absolute;
@@ -161,8 +167,8 @@
     }
 
 
-    #cadastro,
-    #formulario {
+    #cadastro
+    {
         position: absolute;
         top: 0px;
         width: 88%;
@@ -186,7 +192,7 @@
 
 
 
-    /* Efeito ao clicar no botão ( Ir para Login ) */
+    /* Efeito ao clicar no botão ( Ir para formulario ) */
     #parasolicitar:target~.content #cadastro,
     #paratermos:target~.content #formulario {
         z-index: 2;
@@ -196,15 +202,6 @@
         -webkit-animation-delay: .1s;
         animation-delay: .1s;
     }
-
-    /* Efeito ao clicar no botão ( Cadastre-se ) */
-    #registro:target~.content #login,
-    #paratermos:target~.content #cadastro {
-        -webkit-animation-name: fadeOutLeft;
-        animation-name: fadeOutLeft;
-    }
-
-
 
     @-webkit-keyframes fadeInLeft {
         0% {
