@@ -19,6 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
           items: <Widget>[
+            
             Icon(Icons.add, size: 30),
             Icon(Icons.list, size: 30),
             Icon(Icons.compare_arrows, size: 30),
@@ -28,7 +29,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           color: Colors.white,
           buttonBackgroundColor: Colors.white,
           backgroundColor: Colors.blueAccent,
-          animationCurve: Curves.easeInOut,
+          animationCurve: Curves.linear,
           animationDuration: Duration(milliseconds: 600),
           onTap: (index) {
             setState(() {
@@ -38,6 +39,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
         body: Container(
           color: Colors.blueAccent,
+          
           child: Center(
             child: ControllerWifi(),
           ),
