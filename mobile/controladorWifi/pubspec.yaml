@@ -35,6 +35,15 @@ dependencies:
   curved_navigation_bar : ^ 0.3.2
   wave: ^0.0.8
   flutter_snake_navigationbar: ^0.4.1+5
+  firebase_auth: ^0.8.3
+  cloud_firestore: ^0.9.8
+  firebase_storage: ^2.1.0+1
+  image_picker: ^0.5.0+9
+  image_cropper: ^1.0.0
+  flutter_speed_dial: ^1.1.1
+  rxdart: ^0.21.0
+  bloc_pattern: ^1.5.2
+  shimmer: ^1.0.0
 
 dev_dependencies:
   flutter_test:

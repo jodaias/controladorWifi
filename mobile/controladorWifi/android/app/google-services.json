@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "640270548223",
+    "project_id": "controladorwifi-6f495",
+    "storage_bucket": "controladorwifi-6f495.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640270548223:android:f7a24c2c796328b7bb20ca",
+        "android_client_info": {
+          "package_name": "br.com.isuy.controladorWifi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640270548223-qgn8ir3a1aco8qesav6q1g1taf2ml37h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtRRYAbGWy_hO_kI6nKq5lLNkvpux9u9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640270548223-qgn8ir3a1aco8qesav6q1g1taf2ml37h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

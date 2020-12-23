@@ -40,6 +40,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "br.com.isuy.controladorWifi"
         minSdkVersion 16
+        multiDexEnabled true
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -60,4 +61,9 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+

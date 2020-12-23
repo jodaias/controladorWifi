@@ -1,9 +1,10 @@
 import 'package:controladorWifi/pages/controladorWifi.dart';
+import 'package:controladorWifi/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'curved_navigation_bar.dart';
 
 void main() => runApp(
-    MaterialApp(debugShowCheckedModeBanner: false, home: BottomNavBar()));
+    MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen()));
 
 class BottomNavBar extends StatefulWidget {
   @override

@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:controladorWifi/models/usermodel.dart';
+import 'package:controladorWifi/screens/login_screen.dart';
 import 'package:controladorWifi/services/api.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../models/usermodel.dart';
 
 class ControllerWifi extends StatefulWidget {
   @override
@@ -12,7 +16,6 @@ class ControllerWifi extends StatefulWidget {
 }
 
 class _ControllerWifiState extends State<ControllerWifi> {
-  var users = new List<UserModel>();
   final _streamController = StreamController<List<UserModel>>.broadcast();
 
   String nome;
@@ -74,10 +77,20 @@ class _ControllerWifiState extends State<ControllerWifi> {
       appBar: AppBar(
         title: Text('Controlador wifi'),
         centerTitle: true,
+        actions: [
+          InkWell(
+            child: Icon(Icons.logout),
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: _streamController.stream,
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Erro ao conectar !! '));
           }
@@ -87,48 +100,48 @@ class _ControllerWifiState extends State<ControllerWifi> {
             );
           }
 
-          List<UserModel> userss = snapshot.data;
+          List<UserModel> users = snapshot.data;
 
-          return _listview(userss);
+          return _listview(users);
         },
       ),
     );
   }
 
-  _listview(userss) {
+  _listview(users) {
     return Container(
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: userss.length,
+        itemCount: users.length,
         itemBuilder: (context, index) {
-          UserModel p = userss[index];
+          UserModel userModel = users[index];
           return Slidable(
             closeOnScroll: true,
             actionExtentRatio: 0.2,
             direction: Axis.horizontal,
             child: ListTile(
-              title: Text(p.nome),
+              title: Text(userModel.nome),
               trailing: Wrap(
                 spacing: 12, // space between two icons
                 children: [
                   IconButton(
                     icon: Icon(Icons.visibility_outlined),
                     onPressed: () {
-                      alert(index);
+                      alert(userModel);
                     },
                   ),
                   IconButton(
                     icon: Icon(Icons.message),
                     onPressed: () {
-                      _abrirWhatsApp(index);
+                      _abrirWhatsApp(userModel);
                     },
                   ),
                 ],
               ),
               onTap: () {
-                alert(index);
+                alert(userModel);
               },
-              subtitle: Text(p.email),
+              subtitle: Text(userModel.email),
             ),
             secondaryActions: <Widget>[
               IconSlideAction(
@@ -137,9 +150,9 @@ class _ControllerWifiState extends State<ControllerWifi> {
                 color: Colors.black,
                 onTap: () {
                   //=> pegar o usuario
-                  print('Usuário: ${users[index].nome}');
+                  print('Usuário: ${userModel.nome}');
 
-                  String nomeAnterior = users[index].nome;
+                  String nomeAnterior = userModel.nome;
                   print('Nome anterior: $nomeAnterior');
                   //joga no campo de texto o nomeAnterior
                   print('Nome anterior jogado no campo de text');
@@ -152,7 +165,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                           children: [
                             TextFormField(
                               autofocus: true,
-                              initialValue: users[index].nome,
+                              initialValue: userModel.nome,
                               decoration: InputDecoration(
                                   hintText: 'Nome',
                                   contentPadding:
@@ -172,7 +185,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                             TextFormField(
                               autofocus: true,
                               keyboardType: TextInputType.emailAddress,
-                              initialValue: users[index].email,
+                              initialValue: userModel.email,
                               decoration: InputDecoration(
                                   hintText: 'E-mail',
                                   contentPadding:
@@ -192,7 +205,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                             TextFormField(
                               autofocus: true,
                               keyboardType: TextInputType.phone,
-                              initialValue: users[index].whatsapp,
+                              initialValue: userModel.whatsapp,
                               decoration: InputDecoration(
                                   hintText: 'Whatsapp',
                                   contentPadding:
@@ -239,7 +252,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                                 print('dados salvos na tabela LOG');
 
                                 _putUser(UserModel(
-                                    id: users[index].id,
+                                    id: userModel.id,
                                     email: email,
                                     nome: nome,
                                     whatsapp: whatsapp));
@@ -280,7 +293,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                                 onPressed: () {
                                   setState(() {
                                     //alguma ação para excluir o usuario
-                                    _deleteUser(p.id);
+                                    _deleteUser(userModel.id);
                                   });
                                   Navigator.of(ctx).pop();
                                 })
@@ -297,7 +310,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
     );
   }
 
-  void alert(int index) {
+  void alert(UserModel usMd) {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -311,7 +324,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
               child: ListBody(
                 children: <Widget>[
                   Text(
-                    '\nId: ${users[index].id}\nNome: ${users[index].nome}\nEmail: ${users[index].email}\nWhatsapp: ${users[index].whatsapp}\n',
+                    '\nId: ${usMd.id}\nNome: ${usMd.nome}\nEmail: ${usMd.email}\nWhatsapp: ${usMd.whatsapp}\n',
                     style: TextStyle(color: Colors.black54),
                   ),
                 ],
@@ -341,7 +354,7 @@ class _ControllerWifiState extends State<ControllerWifi> {
                             )),
                         onPressed: () {
                           //vai entrar em contato no whatsapp
-                          _abrirWhatsApp(index);
+                          _abrirWhatsApp(usMd);
                         },
                       ),
                     ],
@@ -368,9 +381,9 @@ class _ControllerWifiState extends State<ControllerWifi> {
         });
   }
 
-  _abrirWhatsApp(int index) async {
+  _abrirWhatsApp(UserModel usMd) async {
     var whatsappUrl =
-        "whatsapp://send?phone=+55${users[index].whatsapp}&text=Olá ${users[index].nome}, segue o Token Solicitado:\n";
+        "whatsapp://send?phone=+55${usMd.whatsapp}&text=Olá ${usMd.nome}, segue o Token Solicitado:\n";
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
